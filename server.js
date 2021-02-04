@@ -2,12 +2,34 @@
 var express = require('express');
 var app = express();
 const PORT = process.env.PORT || 8080;
+
 // set the port based on environment (more on environments later)
 var port = PORT;
+
 // send our index.html file to the user for the home page
 app.get('/', function(req, res) {
  res.sendFile(__dirname + '/index.html');
 });
+
+// admin router
+var adminRouter = express.Router();
+
+// admin main page
+adminRouter.get('/', function(req, res){
+    res.send('i am the dashboard');
+});
+
+// users page (http://localhost:PORT/admin/users)
+adminRouter.get('/users', function(req, res){
+    res.send('i show all the user');
+});
+// posts page (http://localhost:PORT/admin/posts)
+adminRouter.get('/posts', function(req, res){
+    res.send('i show all the posts');
+});
+
+app.use('/admin', adminRouter);
+
 // start the server
 app.listen(PORT);
 console.log('Express Server running at http://127.0.0.1:'.PORT);
